@@ -26,6 +26,13 @@ ui <- fluidPage(
         "add_edge_mode",
         "Enter Add Edge"
       )
+    ),
+    column(
+      width = 3,
+      actionButton(
+        "delete_selected",
+        "Delete Selected Element"
+      )
     )
   ),
   fluidRow(
@@ -133,6 +140,11 @@ server <- function(input, output, session) {
   observeEvent(input$add_edge_mode, {
     visNetworkProxy("network_all") |>
       visAddEdgeMode()
+  })
+  
+  observeEvent(input$delete_selected, {
+    visNetworkProxy("network_all") |>
+      visDeleteMode()
   })
 }
 

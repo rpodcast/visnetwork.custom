@@ -62,3 +62,15 @@ visAddEdgeMode <- function(graph) {
   graph$session$sendCustomMessage("visShinyAddEdgeMode", data)
   graph
 }
+
+visDeleteMode <- function(graph) {
+  if (!any(class(graph) %in% "visNetwork_Proxy")) {
+    stop("Need visNetwork Proxy object!")
+  }
+  data <- list(
+    id = graph$id
+  )
+  
+  graph$session$sendCustomMessage("visShinyDeleteMode", data)
+  graph
+}

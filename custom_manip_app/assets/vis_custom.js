@@ -65,6 +65,13 @@ $(function() {
     }
   });
   
+  Shiny.addCustomMessageHandler("visShinyDeleteMode", function(data) {
+    // get container id
+    var el = document.getElementById("graph"+data.id);
+    var network = el.chart;
+    network.deleteSelected();
+  });
+  
   deleteSubGraph = function(data, callback) {
     var obj = {cmd: "deleteElements", nodes: data.nodes, edges: data.edges};
     //Shiny.onInputChange(el.id + '_graphChange', obj);
