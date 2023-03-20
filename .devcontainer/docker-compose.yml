@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  vscode:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      - RENV_CONFIG_REPOS_OVERRIDE=https://packagemanager.posit.co/cran/__linux__/focal/latest
+      - DISABLE_AUTH=true
+      - PASSWORD=rstudio
