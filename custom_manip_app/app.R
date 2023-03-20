@@ -1,7 +1,33 @@
 library(shiny)
 library(visNetwork)
+library(shinyWidgets)
 
 ui <- fluidPage(
+  html_dependency_viscustom(),
+  fluidRow(
+    column(
+      width = 3,
+      actionButton(
+        "delete_node",
+        "Delete Node"
+      )
+    ),
+    column(
+      width = 3,
+      actionButton(
+        "add_node_mode",
+        "Enter Add Node"
+        #onclick = "addNode();"
+      )
+    ),
+    column(
+      width = 3,
+      actionButton(
+        "add_edge_mode",
+        "Enter Add Edge"
+      )
+    )
+  ),
   fluidRow(
     column(
       width = 12,
@@ -11,19 +37,25 @@ ui <- fluidPage(
   ),
   fluidRow(
     column(
-      width = 4,
+      width = 3,
       h4("graphChange output"),
       verbatimTextOutput("view_manip")
     ),
     column(
-      width = 4,
+      width = 3,
       h4("click event"),
       verbatimTextOutput("view_click")
     ),
     column(
-      width = 4,
+      width = 3,
       h4("nodes proxy"),
-      verbatimTextOutput("view_nodesproxy")
+      verbatimTextOutput("view_nodesproxy"),
+      verbatimTextOutput("view_edgesproxy")
+    ),
+    column(
+      width = 3,
+      h4("edit_mode"),
+      verbatimTextOutput("view_edit")
     )
   )
 )
@@ -49,7 +81,12 @@ server <- function(input, output, session) {
           Shiny.onInputChange('drag_object', params);
         }"
       ) |>
-      visOptions(manipulation = TRUE)
+      visOptions(manipulation = list(
+        enabled = FALSE,
+        addNode = htmlwidgets::JS("onAddNode"),
+        addEdge = htmlwidgets::JS("onAddEdge"),
+        deleteNode = htmlwidgets::JS("deleteNodeFunction")
+      ))
   })
   
   # run every 1 second to obtain correct X and Y node positions
@@ -73,6 +110,29 @@ server <- function(input, output, session) {
   
   output$view_nodesproxy <- renderPrint({
     input$network_all_get_nodes
+  })
+  
+  output$view_edgesproxy <- renderPrint({
+    input$network_all_get_edges
+  })
+  
+  output$view_edit <- renderPrint({
+    input$edit_mode
+  })
+  
+  observeEvent(input$hide, {
+    toggleDisplay(id = "test", display = FALSE)
+  })
+  
+  observeEvent(input$add_node_mode, {
+    visNetworkProxy("network_all") |>
+      visAddNodeMode()
+      #visGrabNetwork()
+  })
+  
+  observeEvent(input$add_edge_mode, {
+    visNetworkProxy("network_all") |>
+      visAddEdgeMode()
   })
 }
 
