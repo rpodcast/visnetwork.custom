@@ -72,11 +72,10 @@ $(function() {
     network.deleteSelected();
   });
   
-  deleteSubGraph = function(data, callback) {
-    var obj = {cmd: "deleteElements", nodes: data.nodes, edges: data.edges};
-    //Shiny.onInputChange(el.id + '_graphChange', obj);
-    callback(data);
-  };
+  //deleteSubGraph = function(data, callback) {
+  //  var obj = {cmd: "deleteElements", nodes: data.nodes, edges: data.edges};
+  //  callback(data);
+  //};
   
   deleteFunction = function(data, callback) {
     // do something here
