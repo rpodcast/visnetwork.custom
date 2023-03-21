@@ -39,24 +39,26 @@ visGrabNetwork <- function(graph) {
   graph
 }
 
-visAddNodeMode <- function(graph) {
+visAddNodeMode <- function(graph, edit_id = "add_node_mode", session = shiny::getDefaultReactiveDomain()) {
   if (!any(class(graph) %in% "visNetwork_Proxy")) {
     stop("Need visNetwork Proxy object!")
   }
   data <- list(
-    id = graph$id
+    id = graph$id,
+    edit_id = session$ns(edit_id)
   )
   
   graph$session$sendCustomMessage("visShinyAddNodeMode", data)
   graph
 }
 
-visAddEdgeMode <- function(graph) {
+visAddEdgeMode <- function(graph, edit_id = "add_edge_mode", session = shiny::getDefaultReactiveDomain()) {
   if (!any(class(graph) %in% "visNetwork_Proxy")) {
     stop("Need visNetwork Proxy object!")
   }
   data <- list(
-    id = graph$id
+    id = graph$id,
+    edit_id = session$ns(edit_id)
   )
   
   graph$session$sendCustomMessage("visShinyAddEdgeMode", data)

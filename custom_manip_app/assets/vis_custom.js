@@ -42,11 +42,11 @@ $(function() {
     if (inAddNodeMode) {
       network.disableEditMode();
       inAddNodeMode = false;
-      Shiny.setInputValue('edit_mode', inAddNodeMode, {priority: 'event'});
+      Shiny.setInputValue(data.edit_id, inAddNodeMode, {priority: 'event'});
     } else {
       network.addNodeMode();
       inAddNodeMode = true;
-      Shiny.setInputValue('edit_mode', inAddNodeMode, {priority: 'event'});
+      Shiny.setInputValue(data.edit_id, inAddNodeMode, {priority: 'event'});
     }
   });
   
@@ -57,11 +57,11 @@ $(function() {
     if (inAddEdgeMode) {
       network.disableEditMode();
       inAddEdgeMode = false;
-      Shiny.setInputValue('edit_mode', inAddEdgeMode, {priority: 'event'});
+      Shiny.setInputValue(data.edit_id, inAddEdgeMode, {priority: 'event'});
     } else {
       network.addEdgeMode();
       inAddEdgeMode = true;
-      Shiny.setInputValue('edit_mode', inAddEdgeMode, {priority: 'event'});
+      Shiny.setInputValue(data.edit_id, inAddEdgeMode, {priority: 'event'});
     }
   });
   
@@ -78,42 +78,24 @@ $(function() {
     callback(data);
   };
   
-  deleteNodeFunction = function(data, callback) {
+  deleteFunction = function(data, callback) {
     // do something here
     console.log("I entered deleteNodeFunction");
-    deleteSubGraph(data, callback);
+    //deleteSubGraph(data, callback);
+    callback(data);
   };
   
   onAddNode = function(data, callback) {
     console.log('onAdd');
     inAddNodeMode = false;
-    Shiny.setInputValue('edit_mode', inAddNodeMode, {priority: 'event'});
+    Shiny.setInputValue('add_node_mode', inAddNodeMode, {priority: 'event'});
     callback(data);
   };
   
   onAddEdge = function(data, callback) {
     console.log('onEdge');
     inAddEdgeMode = false;
-    Shiny.setInputValue('edit_mode', inAddEdgeMode, {priority: 'event'});
+    Shiny.setInputValue('add_edge_mode', inAddEdgeMode, {priority: 'event'});
     callback(data);
   }
-  
-  addNodeBackup = function() {
-    if (inAddNodeMode) {
-      this.disableEditMode();
-      inAddNodeMode = false;
-    } else {
-      // get container id
-      var el = document.getElementById("network_all");
-      if(el) {
-        var network = el.chart;
-      }
-      this.vis.network.addNodeMode();
-      inAddNodeMode = true;
-    }
-  };
-  
-  visDelete = function() {
-    this.deleteSelected();
-  };
 });
